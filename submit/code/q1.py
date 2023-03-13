@@ -50,32 +50,32 @@ def sent2features(sent):
 def sent2labels(sent):
     return sent['tags']
 
-def sent2multilabels(sent):
-    label_array = np.zeros((len(sent['sent']), len(FIGER_TAGS)), dtype=np.int8)
-    for i, tag_list in enumerate(sent['tags']):
-        if tag_list == 'O':
-            continue
-        for tag in tag_list:
-            # get index of tag in FIGER class list
-            idx = FIGER_TAGS.index(tag)
-            label_array[i, idx] = 1
-    return [str(i) for i in label_array.tolist()]
+# def sent2multilabels(sent):
+#     label_array = np.zeros((len(sent['sent']), len(FIGER_TAGS)), dtype=np.int8)
+#     for i, tag_list in enumerate(sent['tags']):
+#         if tag_list == 'O':
+#             continue
+#         for tag in tag_list:
+#             # get index of tag in FIGER class list
+#             idx = FIGER_TAGS.index(tag)
+#             label_array[i, idx] = 1
+#     return [str(i) for i in label_array.tolist()]
 
 # Convert data to features and labels
 X_train = [sent2features(sent['sent']) for sent in train_data]
-y_train = [sent2multilabels(sent) for sent in train_data]
-X_test = [sent2features(sent['sent']) for sent in test_data]
-y_test = [sent2multilabels(sent) for sent in test_data]
+y_train = [sent2labels(sent) for sent in train_data]
+# X_test = [sent2features(sent['sent']) for sent in test_data]
+# y_test = [sent2labels(sent) for sent in test_data]
 
-print(X_test[0], y_test[0])
+# print(X_train[0], y_train[0])
 
 # Train CRF model
 crf = CRF(algorithm='lbfgs', c1=0.1, c2=0.1, max_iterations=100, all_possible_transitions=True)
 crf.fit(X_train, y_train)
 
-# Make predictions on test data
-y_pred = crf.predict(X_test)
+# # Make predictions on test data
+# y_pred = crf.predict(X_test)
 
-# Print classification report
-labels = list(set(tag for sent in y_test for tag in sent))
-print(flat_classification_report(y_test, y_pred, labels=labels))
+# # Print classification report
+# labels = list(set(tag for sent in y_test for tag in sent))
+# print(flat_classification_report(y_test, y_pred, labels=labels))
