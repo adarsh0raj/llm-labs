@@ -1,0 +1,12 @@
+Number of testing sentences: 278
+9/9 [==============================] - 1s 64ms/step - loss: 0.0928 - accuracy: 0.9557
+
+Loose Macro Score
+Precision: 0.8940047961630695
+Recall: 0.8940047961630695
+F1 Score: 0.8940047961630695
+-------------------------------
+Loose Micro Score
+Precision: 0.9700033453518195
+Recall: 0.8810263335584064
+F1 Score: 0.9233763246819879
